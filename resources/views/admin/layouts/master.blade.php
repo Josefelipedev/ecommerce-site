@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="{{asset('backend/assets/modules/weather-icon/css/weather-icons.min.css' )}}">
     <link rel="stylesheet" href="{{asset('backend/assets/modules/weather-icon/css/weather-icons-wind.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/modules/summernote/summernote-bs4.css')}}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('backend/assets/css/style.css')}}">
@@ -22,7 +25,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'UA-94034622-3');
@@ -48,7 +55,9 @@
         </div>
         <footer class="main-footer">
             <div class="footer-left">
-                Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+                Copyright &copy; 2018
+                <div class="bullet"></div>
+                Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
             </div>
             <div class="footer-right">
 
@@ -73,6 +82,7 @@
 <script src="{{asset('backend/assets/modules/jqvmap/dist/maps/jquery.vmap.world.js')}}"></script>
 <script src="{{asset('backend/assets/modules/summernote/summernote-bs4.js')}}"></script>
 <script src="{{asset('backend/assets/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- Page Specific JS File -->
 <script src="{{asset('backend/assets/js/page/index-0.js')}}"></script>
@@ -80,5 +90,13 @@
 <!-- Template JS File -->
 <script src="{{asset('backend/assets/js/scripts.js')}}"></script>
 <script src="{{asset('backend/assets/js/custom.js')}}"></script>
+<script>
+    @if($errors->any())
+    @foreach($errors->all() as $error)
+    toastr.warning('{{$error}}');
+    @endforeach
+    @endif
+</script>
+
 </body>
 </html>

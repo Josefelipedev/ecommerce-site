@@ -10,26 +10,28 @@ use File;
 class ProfileController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         return view('admin.profile.index');
     }
 
-    public function updateProfile( Request $request ){
+    public function updateProfile(Request $request)
+    {
         $request->validate([
-            'name' => ['required' , 'max:100'],
-            'email' => ['required', 'email', 'unique:users,email,'.Auth::user()->id],
-            'image' => ['image' , 'mimes:jpeg,jpg,png' , 'max:1024']
+            'name' => ['required', 'max:100'],
+            'email' => ['required', 'email', 'unique:users,email,' . Auth::user()->id],
+            'image' => ['image', 'mimes:jpeg,jpg,png', 'max:1024']
         ]);
         $user = Auth::user();
         if ($request->hasFile('image')) {
-           if (File::exists(public_path($user->image))) {
-               File::delete(public_path($user->image));
-           }
+            if (File::exists(public_path($user->image))) {
+                File::delete(public_path($user->image));
+            }
             $image = $request->image;
-            $imageName = rand().'_'.$image->getClientOriginalName();
+            $imageName = rand() . '_' . $image->getClientOriginalName();
             $image->move(public_path('uploads'), $imageName);
 
-            $path = '/uploads/'.$imageName;
+            $path = '/uploads/' . $imageName;
             $user->image = $path;
         }
 
@@ -37,6 +39,20 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->save();
 
+        toastr()->success('Profile Updated Successfully');
+        return redirect()->back();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            "current_password" => ['required', 'current_password'],
+            "password" => ['required', 'confirmed', 'min:8'],
+
+        ]);
+        $request->user()->update(['password' => bcrypt($request->password)]);
+
+        toastr()->success('Password Updated Successfully');
         return redirect()->back();
     }
 }
